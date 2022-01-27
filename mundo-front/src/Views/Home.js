@@ -1,4 +1,4 @@
-import * as React from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
 import Tabs from '@mui/material/Tabs';
 import Tab from '@mui/material/Tab';
@@ -27,7 +27,7 @@ function TabPanel(props) {
         >
             {value === index && (
                 <Box sx={{ p: 3 }}>
-                    <Typography>{children}</Typography>
+                    <Typography component={"span"}>{children}</Typography>
                 </Box>
             )}
         </div>
@@ -56,7 +56,14 @@ export default function BasicTabs() {
 
 
     return (
-        <Box sx={{ height:'100vh', overflow:'hidden' }}>
+        <Box sx={{ height:'100vh', overflow:()=>{
+            if(window.innerHeight<=600){
+                return 'scroll'
+            }
+            else{
+                return 'hidden'
+                };
+        } }}>
             <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
                 <Tabs centered variant='fullWidth' value={value} onChange={handleChange} aria-label="basic tabs example">
                     <Tab  label="Listado de Calles" {...a11yProps(0)} />

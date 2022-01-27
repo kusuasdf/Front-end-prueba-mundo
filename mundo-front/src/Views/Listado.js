@@ -1,4 +1,4 @@
-import * as React from 'react';
+import React from 'react';
 import Paper from '@mui/material/Paper';
 import Table from '@mui/material/Table';
 import TableBody from '@mui/material/TableBody';
@@ -42,8 +42,6 @@ const columns = [
 ];
 
 
-
-
 export default function StickyHeadTable() {
     const [page, setPage] = React.useState(0);
     const [rowsPerPage, setRowsPerPage] = React.useState(10);
@@ -64,6 +62,8 @@ export default function StickyHeadTable() {
 
     const regionChange = (event) => {
         setSelectedRegion(event.target.value);
+        setProvincias([]);
+        setCiudades([]);
         Axios.get('http://127.0.0.1:8000/api/regiones/' + event.target.value)
             .then(res => setProvincias(res.data))
             .catch(err => console.log(err));
@@ -73,6 +73,7 @@ export default function StickyHeadTable() {
 
     const provinciaChange = (event) => {
         setSelectedProvincia(event.target.value);
+        setCiudades([]);
         Axios.get('http://127.0.0.1:8000/api/provincias/' + event.target.value)
             .then(res => setCiudades(res.data))
             .catch(err => console.log(err));
@@ -131,6 +132,9 @@ export default function StickyHeadTable() {
                 setMessage('Calle editada con éxito');
                 setError(false);
                 setSuccess(true);
+                setTimeout(() => {
+                    setSuccess(false);
+                }, 3000);
                 dataUpdate();
             })
             .catch(err => {
@@ -138,6 +142,9 @@ export default function StickyHeadTable() {
                 setSuccess(false);
                 setMessage('Error al editar calle');
                 setError(true);
+                setTimeout(() => {
+                    setError(false);
+                }, 3000);
             });
     };
 
@@ -162,6 +169,9 @@ export default function StickyHeadTable() {
                 setMessage('Calle eliminada con éxito');
                 setError(false);
                 setSuccess(true);
+                setTimeout(() => {
+                    setSuccess(false);
+                }, 3000);
                 dataUpdate();
             })
             .catch(err => {
@@ -192,11 +202,18 @@ export default function StickyHeadTable() {
 
     return (
         <Paper elevation={4} sx={{
-            overflow: 'visible',
+            overflow: ()=>{
+            if(window.innerWidth<=500){
+                return 'scroll'
+            }
+            else{
+                return 'visible'
+                };
+        },
             display: 'flex',
             flexDirection: 'column',
             alignContent: 'center',
-            height: '80vh',
+            height: '85vh',
         }}>
             <Collapse in={success}>
                 <Alert
@@ -212,15 +229,15 @@ export default function StickyHeadTable() {
                             <CloseIcon fontSize="inherit" />
                         </IconButton>
                     }
-                    sx={{ mb: 2, paddingBottom: 2 }}
+                    sx={{height:'10vh',  paddingBottom:'1' }}
                 >
                     {message}
                 </Alert>
             </Collapse>
-            <TableContainer >
+            <TableContainer overflow >
                 <Table stickyHeader aria-label="sticky table">
                     <TableHead>
-                        <TableRow>
+                        <TableRow >
                             {columns.map((column) => (
                                 <TableCell
                                     key={column.id}
@@ -237,7 +254,7 @@ export default function StickyHeadTable() {
                             .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
                             .map((datas) => {
                                 return (
-                                    <TableRow hover role="checkbox" tabIndex={-1} key={datas.id}>
+                                    <TableRow  hover role="checkbox" tabIndex={-1} key={datas.id}>
                                         <TableCell>{datas.region.REG_NAME}</TableCell>
                                         <TableCell>{datas.provincia.PROV_NAME}</TableCell>
                                         <TableCell>{datas.ciudad.CIU_NAME}</TableCell>
@@ -320,6 +337,7 @@ export default function StickyHeadTable() {
                             onChange={provinciaChange}
                             autoWidth
                             label="provincias"
+                            disabled={!selectedRegion ?? false}
                         >
                             {provincias.map(provincia => {
                                 return (
@@ -339,6 +357,7 @@ export default function StickyHeadTable() {
                             onChange={(event) => setSelectedCiudad(event.target.value)}
                             autoWidth
                             label="ciudades"
+                            disabled={(!selectedRegion || !selectedProvincia) ?? false}
                         >
                             {ciudades.map(ciudad => {
                                 return (

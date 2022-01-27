@@ -1,4 +1,4 @@
-import * as React from 'react';
+import React from 'react';
 import InputLabel from '@mui/material/InputLabel';
 import MenuItem from '@mui/material/MenuItem';
 import FormControl from '@mui/material/FormControl';
@@ -34,6 +34,8 @@ export default function SelectAutoWidth() {
 
     const regionChange = (event) => {
         setSelectedRegion(event.target.value);
+        setProvincias([]);
+        setCiudades([]);
         Axios.get('http://127.0.0.1:8000/api/regiones/' + event.target.value)
             .then(res => setProvincias(res.data))
             .catch(err => console.log(err));
@@ -43,6 +45,7 @@ export default function SelectAutoWidth() {
 
     const provinciaChange = (event) => {
         setSelectedProvincia(event.target.value);
+        setCiudades([]);
         Axios.get('http://127.0.0.1:8000/api/provincias/' + event.target.value)
             .then(res => setCiudades(res.data))
             .catch(err => console.log(err));
@@ -61,18 +64,32 @@ export default function SelectAutoWidth() {
                     seterror(false);
                     setsuccess(true);
                     setCalle('');
+                    setCiudades([]);
+                    setSelectedCiudad('');
+                    setSelectedProvincia('');
+                    setProvincias([]);
+                    setSelectedRegion('');
+                    setTimeout(() => {
+                        setsuccess(false);
+                    }, 3000);
                 }
                 else{
                     setsuccess(false);
-                    setMessage('Error al guardar la calle');
+                    setMessage('Error al guardar la calle, Intente nuevamente');
                     seterror(true);
+                    setTimeout(() => {
+                        seterror(false);
+                    }, 3000);
                 }
             })
             .catch(err => {
                 console.log(err);
                 setsuccess(false);
-                setMessage(err.response.data.message+" Todos los campos son obligatorios.");
+                setMessage("Todos los campos son obligatorios.");
                 seterror(true);
+                setTimeout(() => {
+                    seterror(false);
+                }, 3000);
             })
     
     )
@@ -124,7 +141,7 @@ export default function SelectAutoWidth() {
                     {message}
                 </Alert>
             </Collapse>
-            <FormControl required sx={{ m: 1, minWidth: 150, marginBottom:2 }}>
+            <FormControl required sx={{ m: 1,  marginBottom:2 }}>
                 <InputLabel id="region-label">Region</InputLabel>
                 <Select
                     labelId="region-label"
@@ -142,8 +159,8 @@ export default function SelectAutoWidth() {
                     })}
                 </Select>
             </FormControl>
-            <FormControl required sx={{ m: 1, minWidth: 150, marginBottom:2 }}>
-                <InputLabel id="provincia-label">Provincia</InputLabel>
+            <FormControl required sx={{ m: 1,  marginBottom:2 }}>
+                <InputLabel  id="provincia-label">Provincia</InputLabel>
                 <Select
                     labelId="provincia-label"
                     id="provincia selector"
@@ -151,6 +168,7 @@ export default function SelectAutoWidth() {
                     onChange={provinciaChange}
                     autoWidth
                     label="provincias"
+                    disabled={!selectedRegion ?? false}
                 >
                     {provincias.map(provincia => {
                         return (
@@ -161,7 +179,7 @@ export default function SelectAutoWidth() {
 
                 </Select>
             </FormControl>
-            <FormControl required sx={{ m: 1, minWidth: 150, marginBottom:2 }}>
+            <FormControl required sx={{ m: 1,  marginBottom:2 }}>
                 <InputLabel id="ciudad-label">Ciudad</InputLabel>
                 <Select
                     labelId="ciudad-label"
@@ -170,6 +188,7 @@ export default function SelectAutoWidth() {
                     onChange={(event) => setSelectedCiudad(event.target.value)}
                     autoWidth
                     label="ciudades"
+                    disabled={(!selectedRegion || !selectedProvincia) ?? false}
                 >
                     {ciudades.map(ciudad => {
                         return (
@@ -179,10 +198,10 @@ export default function SelectAutoWidth() {
                     })}
                 </Select>
             </FormControl>
-            <FormControl required sx={{ m: 1, minWidth: 150, marginBottom:2 }}>
-            <TextField onChange={(event)=>setCalle(event.target.value)} id="calle" label="Ingrese Calle" variant="filled" />
+            <FormControl required sx={{ m: 1,  marginBottom:2 }}>
+            <TextField onChange={(event)=>setCalle(event.target.value)} id="calle" label="Ingrese Calle" variant="filled" value={calle} />
             </FormControl>
-            <FormControl required sx={{ m: 1, minWidth: 150 }}>
+            <FormControl required sx={{ m: 1 }}>
             <Button onClick={()=>submit()} variant="outlined" color="primary"><SaveIcon />Guardar Calle</Button>
             </FormControl>
         </Paper>
