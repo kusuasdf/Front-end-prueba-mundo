@@ -143,10 +143,14 @@ export default function StickyHeadTable() {
 
     const deleteDialogOpen = (event) => {
         setEdit(event.target.value);
+        setError(false);
+        setSuccess(false);
         setopenDelete(true);
     };
 
     const deleteDialogClose = () => {
+        setError(false);
+        setSuccess(false);
         setopenDelete(false);
         setEdit('');
     };
@@ -289,7 +293,7 @@ export default function StickyHeadTable() {
                             }
                         })}
                     </DialogContentText>
-                    <FormControl required sx={{ m: 1, minWidth: 150, marginBottom: 2 }}>
+                    <FormControl required sx={{ m: 1, Width: '100%', marginBottom: 2 }}>
                         <InputLabel id="region-label">Region</InputLabel>
                         <Select
                             labelId="region-label"
@@ -307,7 +311,7 @@ export default function StickyHeadTable() {
                             })}
                         </Select>
                     </FormControl>
-                    <FormControl required sx={{ m: 1, minWidth: 150, marginBottom: 2 }}>
+                    <FormControl required sx={{ m: 1, width:'100%', marginBottom: 2 }}>
                         <InputLabel id="provincia-label">Provincia</InputLabel>
                         <Select
                             labelId="provincia-label"
@@ -326,7 +330,7 @@ export default function StickyHeadTable() {
 
                         </Select>
                     </FormControl>
-                    <FormControl required sx={{ m: 1, minWidth: 150, marginBottom: 2 }}>
+                    <FormControl required sx={{ m: 1, width:'100%', marginBottom: 2,  }}>
                         <InputLabel id="ciudad-label">Ciudad</InputLabel>
                         <Select
                             labelId="ciudad-label"
@@ -344,7 +348,7 @@ export default function StickyHeadTable() {
                             })}
                         </Select>
                     </FormControl>
-                    <FormControl required sx={{ m: 1, minWidth: 150, marginBottom: 2 }}>
+                    <FormControl required sx={{ m: 1, width:'100%', marginBottom: 2 }}>
                         <TextField onChange={(event) => setNewName(event.target.value)} id="calle" label="Ingrese Calle" variant="filled" value={newName} />
                     </FormControl>
                 </DialogContent>
