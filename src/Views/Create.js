@@ -143,6 +143,7 @@ export default function SelectAutoWidth() {
                 </Alert>
             </Collapse>
             <Typography  variant="h4" align='center' gutterBottom >Agregar calle</Typography>
+            <Typography  variant="h6" align='center' gutterBottom >Ingrese los datos para la nueva calle</Typography>
             <FormControl required sx={{ m: 1,  marginBottom:2, marginTop:2 }}>
                 <InputLabel id="region-label">Region</InputLabel>
                 <Select
