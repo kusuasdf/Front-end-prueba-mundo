@@ -24,14 +24,14 @@
 
 ## Instalar dependencias
 
-1. Desde una terminal de comandos navegar a la carpeta del repositorio (en el caso de usar la opción 1 al momento de clonar el repositorio, esta debería es "C:\Users\<usuario>\Mundo-Front")
+1. Desde una terminal de comandos navegar a la carpeta del repositorio (en el caso de usar la opción 1 al momento de clonar el repositorio, esta debería es "C:\Users\< usuario >\Mundo-Front")
 2. Ejecutar el comando:
 
         npm install
 
 ## Ejecutar el programa
 
-1. Desde una terminal de comandos navegar a la carpeta del repositorio (en el caso de usar la opción 1 al momento de clonar el repositorio, esta debería es "C:\Users\<usuario>\Mundo-Front")
+1. Desde una terminal de comandos navegar a la carpeta del repositorio (en el caso de usar la opción 1 al momento de clonar el repositorio, esta debería es "C:\Users\< usuario >\Mundo-Front")
 2. Ejecutar el comando:
 
         npm start
