@@ -11,7 +11,7 @@ import Alert from '@mui/material/Alert';
 import IconButton from '@mui/material/IconButton';
 import Collapse from '@mui/material/Collapse';
 import CloseIcon from '@mui/icons-material/Close';
-import { Box, Paper } from '@mui/material';
+import { Box, Paper, Typography } from '@mui/material';
 
 export default function SelectAutoWidth() {
     const [regions, setRegion] = React.useState([]);
@@ -102,6 +102,7 @@ export default function SelectAutoWidth() {
             flexDirection:'column', 
             alignContent:'center',
             height:'100%',
+            padding: '1rem'
             }}>
             <Collapse in={success}>
                 <Alert
@@ -141,19 +142,20 @@ export default function SelectAutoWidth() {
                     {message}
                 </Alert>
             </Collapse>
-            <FormControl required sx={{ m: 1,  marginBottom:2 }}>
+            <Typography  variant="h4" align='center' gutterBottom >Agregar calle</Typography>
+            <FormControl required sx={{ m: 1,  marginBottom:2, marginTop:2 }}>
                 <InputLabel id="region-label">Region</InputLabel>
                 <Select
                     labelId="region-label"
                     id="Region selector"
                     value={selectedRegion}
                     onChange={regionChange}
-                    autoWidth
+                    
                     label="Regions"
                 >
                     {regions.map(region => {
                         return (
-                            <MenuItem key={region.id} value={region.id}>
+                            <MenuItem sx={{width:'100%'}} key={region.id} value={region.id}>
                                 {region.REG_NAME}
                             </MenuItem>)
                     })}
@@ -166,13 +168,12 @@ export default function SelectAutoWidth() {
                     id="provincia selector"
                     value={selectedProvincia}
                     onChange={provinciaChange}
-                    autoWidth
                     label="provincias"
                     disabled={!selectedRegion ?? false}
                 >
                     {provincias.map(provincia => {
                         return (
-                            <MenuItem key={provincia.id} value={provincia.id}>
+                            <MenuItem sx={{width:'100%'}} key={provincia.id} value={provincia.id}>
                                 {provincia.PROV_NAME}
                             </MenuItem>)
                     })}
@@ -186,13 +187,12 @@ export default function SelectAutoWidth() {
                     id="ciudad selector"
                     value={selectedCiudad}
                     onChange={(event) => setSelectedCiudad(event.target.value)}
-                    autoWidth
                     label="ciudades"
                     disabled={(!selectedRegion || !selectedProvincia) ?? false}
                 >
                     {ciudades.map(ciudad => {
                         return (
-                            <MenuItem key={ciudad.id} value={ciudad.id}>
+                            <MenuItem sx={{width:'100%'}} key={ciudad.id} value={ciudad.id}>
                                 {ciudad.CIU_NAME}
                             </MenuItem>)
                     })}
@@ -201,8 +201,8 @@ export default function SelectAutoWidth() {
             <FormControl required sx={{ m: 1,  marginBottom:2 }}>
             <TextField onChange={(event)=>setCalle(event.target.value)} id="calle" label="Ingrese Calle" variant="filled" value={calle} />
             </FormControl>
-            <FormControl required sx={{ m: 1 }}>
-            <Button onClick={()=>submit()} variant="outlined" color="primary"><SaveIcon />Guardar Calle</Button>
+            <FormControl required sx={{ m: 1, alignItems:'center' }}>
+            <Button sx={{width:'50%'}} onClick={()=>submit()} variant="outlined" color="primary"><SaveIcon />Guardar Calle</Button>
             </FormControl>
         </Paper>
     );

@@ -1,28 +1,30 @@
-import React from 'react';
-import Paper from '@mui/material/Paper';
-import Table from '@mui/material/Table';
-import TableBody from '@mui/material/TableBody';
-import TableCell from '@mui/material/TableCell';
-import TableContainer from '@mui/material/TableContainer';
-import TableHead from '@mui/material/TableHead';
-import TablePagination from '@mui/material/TablePagination';
-import TableRow from '@mui/material/TableRow';
-import Axios from 'axios';
-import Button from '@mui/material/Button';
-import Dialog from '@mui/material/Dialog';
-import DialogActions from '@mui/material/DialogActions';
-import DialogContent from '@mui/material/DialogContent';
-import DialogContentText from '@mui/material/DialogContentText';
-import DialogTitle from '@mui/material/DialogTitle';
-import TextField from '@mui/material/TextField';
-import InputLabel from '@mui/material/InputLabel';
-import MenuItem from '@mui/material/MenuItem';
-import FormControl from '@mui/material/FormControl';
-import Select from '@mui/material/Select';
-import Alert from '@mui/material/Alert';
-import IconButton from '@mui/material/IconButton';
-import Collapse from '@mui/material/Collapse';
+import {useState,useEffect} from 'react';
+import {
+    Paper,
+    Table,
+    TableBody,
+    TableCell,
+    TableContainer,
+    TableHead,
+    TablePagination,
+    TableRow,
+    Button,
+    Dialog,
+    DialogActions,
+    DialogContent,
+    DialogContentText,
+    DialogTitle,
+    TextField,
+    InputLabel,
+    MenuItem,
+    FormControl,
+    Select,
+    Alert,
+    IconButton,
+    Collapse,
+} from "@mui/material";
 import CloseIcon from '@mui/icons-material/Close';
+import Axios from 'axios';
 
 
 
@@ -43,22 +45,22 @@ const columns = [
 
 
 export default function StickyHeadTable() {
-    const [page, setPage] = React.useState(0);
-    const [rowsPerPage, setRowsPerPage] = React.useState(10);
-    const [data, setData] = React.useState([]);
-    const [openEdit, setopenEdit] = React.useState(false);
-    const [openDelete, setopenDelete] = React.useState(false);
-    const [edit, setEdit] = React.useState('');
-    const [newName, setNewName] = React.useState('');
-    const [regions, setRegion] = React.useState([]);
-    const [selectedRegion, setSelectedRegion] = React.useState('');
-    const [provincias, setProvincias] = React.useState([]);
-    const [selectedProvincia, setSelectedProvincia] = React.useState('');
-    const [ciudades, setCiudades] = React.useState([]);
-    const [selectedCiudad, setSelectedCiudad] = React.useState('');
-    const [message, setMessage] = React.useState('');
-    const [success, setSuccess] = React.useState(false);
-    const [error, setError] = React.useState(false);
+    const [page, setPage] = useState(0);
+    const [rowsPerPage, setRowsPerPage] = useState(10);
+    const [data, setData] = useState([]);
+    const [openEdit, setopenEdit] = useState(false);
+    const [openDelete, setopenDelete] = useState(false);
+    const [edit, setEdit] = useState('');
+    const [newName, setNewName] = useState('');
+    const [regions, setRegion] = useState([]);
+    const [selectedRegion, setSelectedRegion] = useState('');
+    const [provincias, setProvincias] = useState([]);
+    const [selectedProvincia, setSelectedProvincia] = useState('');
+    const [ciudades, setCiudades] = useState([]);
+    const [selectedCiudad, setSelectedCiudad] = useState('');
+    const [message, setMessage] = useState('');
+    const [success, setSuccess] = useState(false);
+    const [error, setError] = useState(false);
 
     const regionChange = (event) => {
         setSelectedRegion(event.target.value);
@@ -115,11 +117,7 @@ export default function StickyHeadTable() {
 
     const editDialogClose = () => {
         setopenEdit(false);
-        setEdit('');
-        setNewName('');
-        setSelectedRegion('');
-        setSelectedProvincia('');
-        setSelectedCiudad('');
+
     };
 
     const editSave = (event) => {
@@ -159,7 +157,6 @@ export default function StickyHeadTable() {
         setError(false);
         setSuccess(false);
         setopenDelete(false);
-        setEdit('');
     };
 
     const deleteSave = (event) => {
@@ -185,7 +182,7 @@ export default function StickyHeadTable() {
             .catch(err => console.log(err));
     };
 
-    React.useEffect(() => {
+    useEffect(() => {
         Axios.get('http://127.0.0.1:8000/api/calles')
             .then(res => setData(res.data))
     }, []);
@@ -202,14 +199,14 @@ export default function StickyHeadTable() {
 
     return (
         <Paper elevation={4} sx={{
-            overflow: ()=>{
-            if(window.innerWidth<=500){
-                return 'scroll'
-            }
-            else{
-                return 'visible'
+            overflow: () => {
+                if (window.innerWidth <= 500) {
+                    return 'scroll'
+                }
+                else {
+                    return 'visible'
                 };
-        },
+            },
             display: 'flex',
             flexDirection: 'column',
             alignContent: 'center',
@@ -229,7 +226,7 @@ export default function StickyHeadTable() {
                             <CloseIcon fontSize="inherit" />
                         </IconButton>
                     }
-                    sx={{height:'10vh',  paddingBottom:'1' }}
+                    sx={{ height: '10', paddingBottom: '1' }}
                 >
                     {message}
                 </Alert>
@@ -254,14 +251,14 @@ export default function StickyHeadTable() {
                             .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
                             .map((datas) => {
                                 return (
-                                    <TableRow  hover role="checkbox" tabIndex={-1} key={datas.id}>
+                                    <TableRow hover role="checkbox" tabIndex={-1} key={datas.id}>
                                         <TableCell>{datas.ciudad.provincia.region.REG_NAME}</TableCell>
                                         <TableCell>{datas.ciudad.provincia.PROV_NAME}</TableCell>
                                         <TableCell>{datas.ciudad.CIU_NAME}</TableCell>
                                         <TableCell>{datas.CAL_NAME}</TableCell>
                                         <TableCell align='center' maxwidth='12%'  >
                                             <Button id={datas.id} value={datas.id} onClick={editDialogOpen} variant="outlined"> Editar</Button>
-                                            <Button value={datas.id} color="error" variant='outlined' onClick={deleteDialogOpen}> Eliminar</Button>
+                                            <Button sx={{marginLeft:'4px'}} value={datas.id} color="error" variant='outlined' onClick={deleteDialogOpen}> Eliminar</Button>
                                         </TableCell>
                                     </TableRow>
                                 );
@@ -277,6 +274,8 @@ export default function StickyHeadTable() {
                 page={page}
                 onPageChange={handleChangePage}
                 onRowsPerPageChange={handleChangeRowsPerPage}
+                labelRowsPerPage="Calles por página"
+                labelDisplayedRows={({ from, to, count }) => `${from}-${to} de ${count}`}   
                 sx={{
                     overflow: 'visible',
                 }}
@@ -310,64 +309,60 @@ export default function StickyHeadTable() {
                             }
                         })}
                     </DialogContentText>
-                    <FormControl required sx={{ m: 1, Width: '100%', marginBottom: 2 }}>
+                    <FormControl required sx={{ m: 1, width: '100%', marginBottom: 2 }}>
                         <InputLabel id="region-label">Region</InputLabel>
                         <Select
                             labelId="region-label"
                             id="Region selector"
                             value={selectedRegion}
                             onChange={regionChange}
-                            autoWidth
                             label="Regions"
                         >
                             {regions.map(region => {
                                 return (
-                                    <MenuItem key={region.id} value={region.id}>
+                                    <MenuItem sx={{width:'100%'}} key={region.id} value={region.id}>
                                         {region.REG_NAME}
                                     </MenuItem>)
                             })}
                         </Select>
                     </FormControl>
-                    <FormControl required sx={{ m: 1, width:'100%', marginBottom: 2 }}>
+                    <FormControl required sx={{ m: 1, width: '100%', marginBottom: 2 }}>
                         <InputLabel id="provincia-label">Provincia</InputLabel>
                         <Select
                             labelId="provincia-label"
                             id="provincia selector"
                             value={selectedProvincia}
                             onChange={provinciaChange}
-                            autoWidth
                             label="provincias"
                             disabled={!selectedRegion ?? false}
                         >
                             {provincias.map(provincia => {
                                 return (
-                                    <MenuItem key={provincia.id} value={provincia.id}>
+                                    <MenuItem sx={{width:'100%'}} key={provincia.id} value={provincia.id}>
                                         {provincia.PROV_NAME}
                                     </MenuItem>)
                             })}
-
                         </Select>
                     </FormControl>
-                    <FormControl required sx={{ m: 1, width:'100%', marginBottom: 2,  }}>
+                    <FormControl required sx={{ m: 1, width: '100%', marginBottom: 2, }}>
                         <InputLabel id="ciudad-label">Ciudad</InputLabel>
                         <Select
                             labelId="ciudad-label"
                             id="ciudad selector"
                             value={selectedCiudad}
                             onChange={(event) => setSelectedCiudad(event.target.value)}
-                            autoWidth
                             label="ciudades"
                             disabled={(!selectedRegion || !selectedProvincia) ?? false}
                         >
                             {ciudades.map(ciudad => {
                                 return (
-                                    <MenuItem key={ciudad.id} value={ciudad.id}>
+                                    <MenuItem sx={{width:'100%'}} key={ciudad.id} value={ciudad.id}>
                                         {ciudad.CIU_NAME}
                                     </MenuItem>)
                             })}
                         </Select>
                     </FormControl>
-                    <FormControl required sx={{ m: 1, width:'100%', marginBottom: 2 }}>
+                    <FormControl required sx={{ m: 1, width: '100%', marginBottom: 2 }}>
                         <TextField onChange={(event) => setNewName(event.target.value)} id="calle" label="Ingrese Calle" variant="filled" value={newName} />
                     </FormControl>
                 </DialogContent>
