@@ -1,4 +1,4 @@
-# Prueba Técnica Mundo
+# Prueba Técnica Mundo - Front End
 
 ##### Autor: Xavier Canales Carvajal -- 19.335.616-8
 
