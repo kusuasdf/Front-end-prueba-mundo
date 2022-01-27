@@ -8,11 +8,7 @@ import Lista from "./Listado"
 import Create from "./Create"
 import { Container } from '@mui/material';
 import './Views.css'
-import Dialog from '@mui/material/Dialog';
-import DialogActions from '@mui/material/DialogActions';
-import DialogContent from '@mui/material/DialogContent';
-import DialogContentText from '@mui/material/DialogContentText';
-import DialogTitle from '@mui/material/DialogTitle';
+
 
 function TabPanel(props) {
     const { children, value, index, ...other } = props;

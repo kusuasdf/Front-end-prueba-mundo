@@ -56,7 +56,7 @@ export default function SelectAutoWidth() {
     const submit = () => (
         
         Axios.post('http://127.0.0.1:8000/api/calles', {
-            pt_ciudad_id: selectedCiudad,
+            ciudad_id: selectedCiudad,
             CAL_NAME: calle
         })
             .then(res => {

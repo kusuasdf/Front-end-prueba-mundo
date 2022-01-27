@@ -81,10 +81,10 @@ export default function StickyHeadTable() {
     };
 
     const prepareProvincias = (event) => {
-        Axios.get('http://127.0.0.1:8000/api/regiones/' + data.find(x => x.id == event.target.id).region.id)
+        Axios.get('http://127.0.0.1:8000/api/regiones/' + data.find(x => x.id == event.target.id).ciudad.provincia.region.id)
             .then(res => setProvincias(res.data))
             .then(() => {
-                setSelectedProvincia(data.find(x => x.id == event.target.value).provincia.id);
+                setSelectedProvincia(data.find(x => x.id == event.target.value).ciudad.provincia.id);
                 prepareCiudades(event);
             })
             .catch(err => console.log(err));
@@ -92,7 +92,7 @@ export default function StickyHeadTable() {
     };
 
     const prepareCiudades = (event) => {
-        Axios.get('http://127.0.0.1:8000/api/provincias/' + data.find(x => x.id == event.target.id).provincia.id)
+        Axios.get('http://127.0.0.1:8000/api/provincias/' + data.find(x => x.id == event.target.id).ciudad.provincia.id)
             .then(res => setCiudades(res.data))
             .then(() => {
                 setSelectedCiudad(data.find(x => x.id == event.target.value).ciudad.id);
@@ -105,7 +105,7 @@ export default function StickyHeadTable() {
             .then(res => setRegion(res.data))
             .then(() => {
                 setNewName(data.find(x => x.id == event.target.id).CAL_NAME);
-                setSelectedRegion(data.find(x => x.id == event.target.id).region.id);
+                setSelectedRegion(data.find(x => x.id == event.target.id).ciudad.provincia.region.id);
                 prepareProvincias(event);
                 setEdit(event.target.id);
                 setopenEdit(true);
@@ -125,7 +125,7 @@ export default function StickyHeadTable() {
     const editSave = (event) => {
         Axios.put('http://127.0.0.1:8000/api/calles/' + edit, {
             CAL_NAME: newName,
-            pt_ciudad_id: selectedCiudad,
+            ciudad_id: selectedCiudad,
         })
             .then(res => {
                 editDialogClose();
@@ -234,7 +234,7 @@ export default function StickyHeadTable() {
                     {message}
                 </Alert>
             </Collapse>
-            <TableContainer overflow >
+            <TableContainer  >
                 <Table stickyHeader aria-label="sticky table">
                     <TableHead>
                         <TableRow >
@@ -255,8 +255,8 @@ export default function StickyHeadTable() {
                             .map((datas) => {
                                 return (
                                     <TableRow  hover role="checkbox" tabIndex={-1} key={datas.id}>
-                                        <TableCell>{datas.region.REG_NAME}</TableCell>
-                                        <TableCell>{datas.provincia.PROV_NAME}</TableCell>
+                                        <TableCell>{datas.ciudad.provincia.region.REG_NAME}</TableCell>
+                                        <TableCell>{datas.ciudad.provincia.PROV_NAME}</TableCell>
                                         <TableCell>{datas.ciudad.CIU_NAME}</TableCell>
                                         <TableCell>{datas.CAL_NAME}</TableCell>
                                         <TableCell align='center' maxwidth='12%'  >
