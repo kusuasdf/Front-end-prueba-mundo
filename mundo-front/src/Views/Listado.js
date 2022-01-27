@@ -208,7 +208,7 @@ export default function StickyHeadTable() {
                             <CloseIcon fontSize="inherit" />
                         </IconButton>
                     }
-                    sx={{ mb: 2, paddingBottom: 5 }}
+                    sx={{ mb: 2, paddingBottom: 2 }}
                 >
                     {message}
                 </Alert>
